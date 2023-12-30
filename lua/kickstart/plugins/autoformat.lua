@@ -28,18 +28,6 @@ return {
       return _augroups[client.id]
     end
 
-    local function format_with_prettier()
-      if vim.fn.executable('prettier') == 1 then
-        vim.cmd('Prettier')
-      else
-        print('Prettier is not installed')
-      end
-    end
-
-    local prettier_file_types = {
-      'javascript', 'typescript', 'css', 'html', 'json', 'yaml', 'markdown'
-    }
-
     -- Whenever an LSP attaches to a buffer, we will run this function.
     --
     -- See `:help LspAttach` for more information about this autocmd event.
@@ -51,20 +39,6 @@ return {
         local client = vim.lsp.get_client_by_id(client_id)
         local bufnr = args.buf
 
-        -- Check if the file type is in the Prettier list
-        local buf_ft = vim.api.nvim_buf_get_option(bufnr, 'filetype')
-        if vim.tbl_contains(prettier_file_types, buf_ft) then
-          vim.api.nvim_create_autocmd('BufWritePre', {
-            group = get_augroup(client),
-            buffer = bufnr,
-            callback = function()
-              if format_is_enabled then
-                format_with_prettier()
-              end
-            end,
-          })
-          return
-        end
         -- Only attach to clients that support document formatting
         if not client.server_capabilities.documentFormattingProvider then
           return
