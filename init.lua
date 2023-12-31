@@ -270,9 +270,6 @@ require('lazy').setup({
   -- { dir = 'custom.plugins' },
 }, {})
 
--- [[ Custom Plugins ]]
-require("custom.plugins.prettier").setup()
-
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!

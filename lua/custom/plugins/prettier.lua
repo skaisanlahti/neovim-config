@@ -1,27 +1,35 @@
-local utils = require("custom.utilities")
+local prettier_filetypes = {
+	"javascript", "javascriptreact",
+	"typescript", "typescriptreact",
+	"css", "scss",
+	"html",
+	"json", "markdown", "yaml"
+}
+
+local function is_prettier_filetype()
+	local filetype = vim.bo.filetype
+	return vim.tbl_contains(prettier_filetypes, filetype)
+end
 
 local function setup()
-	if vim.fn.executable("prettier") == 0 then
-		print("Prettier is not installed")
-		return
+	local is_installed = false
+
+	if vim.fn.executable("prettier") == 1 then
+		is_installed = true
+	else
+		print("Prettier is not installed. Use Mason to install.")
 	end
 
 	vim.api.nvim_create_user_command("Prettier", function()
-		vim.cmd("%!prettier --stdin-filepath " .. vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)))
+		if not is_installed then return end
+		local buffer = vim.api.nvim_buf_get_name(0)
+		local filename = vim.fn.fnameescape(buffer)
+		vim.cmd("silent! %!prettier --stdin-filepath " .. filename)
 	end, {})
-
-	local group = vim.api.nvim_create_augroup("CustomPrettier", { clear = true })
-
-	vim.api.nvim_create_autocmd("BufWritePre", {
-		callback = function()
-			if utils.is_prettier_filetype() then
-				vim.cmd("Prettier")
-			end
-		end,
-		group = group
-	})
 end
 
 return {
-	setup = setup
+	setup = setup,
+	filetypes = prettier_filetypes,
+	is_prettier_filetype = is_prettier_filetype
 }
