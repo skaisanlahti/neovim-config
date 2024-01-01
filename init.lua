@@ -313,6 +313,7 @@ vim.o.termguicolors = true
 
 -- Show relative line numbers above and below current line
 vim.o.relativenumber = true
+vim.o.scrolloff = 8
 
 -- [[ Basic Keymaps ]]
 
@@ -331,10 +332,8 @@ vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open float
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- Easer navigation with scandinavian keyboard
-vim.keymap.set("n", "ö", "(")
-vim.keymap.set("n", "ä", ")")
-vim.keymap.set("n", "Ö", "{")
-vim.keymap.set("n", "Ä", "}")
+vim.keymap.set("n", "ö", "<C-d>zz")
+vim.keymap.set("n", "ä", "<C-u>zz")
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
