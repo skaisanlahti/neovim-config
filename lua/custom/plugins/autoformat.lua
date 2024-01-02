@@ -15,7 +15,8 @@ return {
     end, {})
 
     -- Custom prettier setup
-    require("custom.plugins.prettier").setup({
+    local prettier = require("custom.plugins.prettier")
+    prettier.setup({
       "javascript", "javascriptreact",
       "typescript", "typescriptreact",
       "css", "scss",
@@ -48,7 +49,6 @@ return {
         local client = vim.lsp.get_client_by_id(client_id)
         local bufnr = args.buf
 
-        local prettier = require('custom.plugins.prettier')
         -- Only attach to clients that support document formatting
         if not client.server_capabilities.documentFormattingProvider and not prettier.is_prettier_filetype() then
           return
