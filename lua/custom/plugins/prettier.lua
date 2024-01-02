@@ -9,7 +9,7 @@ M.setup = function(filetypes)
 	M.prettier_filetypes = filetypes
 
 	vim.api.nvim_create_user_command("Prettier", function()
-		if not vim.fn.executable("prettier") == 1 then
+		if vim.fn.executable("prettier") ~= 1 then
 			print("Prettier is not installed. Unable to format.")
 			return
 		end
