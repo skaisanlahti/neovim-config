@@ -19,8 +19,7 @@ return {
     prettier.setup({
       "javascript", "javascriptreact",
       "typescript", "typescriptreact",
-      "css", "scss",
-      "html",
+      "css", "scss", "html",
       "json", "markdown", "yaml"
     })
 
