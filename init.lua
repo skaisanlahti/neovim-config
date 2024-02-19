@@ -254,9 +254,14 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
+  {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    opts = {} -- this is equalent to setup({}) function
+  },
   -- Custom plugins
   -- For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  require 'custom.plugins.autoformat',
+  require('custom.plugins.autoformat'),
 }, {})
 
 -- [[ Setting options ]]
@@ -303,6 +308,15 @@ vim.o.termguicolors = true
 -- Show relative line numbers above and below current line
 vim.o.relativenumber = true
 vim.o.scrolloff = 8
+vim.o.tabstop = 4
+
+-- set default line-endings and encoding for new files
+vim.o.fileencoding = 'utf-8'
+vim.o.fileformat = 'unix'
+vim.api.nvim_create_autocmd("BufNewFile", {
+  pattern = "*",
+  command = "set fileformat=unix",
+})
 
 -- [[ Basic Keymaps ]]
 
@@ -324,8 +338,12 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 vim.keymap.set("n", "ö", "<C-d>zz")
 vim.keymap.set("n", "ä", "<C-u>zz")
 
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("n", "<leader>p", ":E<Enter>")
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -424,7 +442,7 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'css', 'scss' },
+    ensure_installed = { 'c', 'cpp', 'c_sharp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'css', 'scss' },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -580,6 +598,7 @@ local servers = {
     },
   },
 }
+
 
 -- Setup neovim lua configuration
 require('neodev').setup()
